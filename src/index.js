@@ -1,6 +1,12 @@
 import express from  'express'
+import {routeHome} from './routes/index.routes.js';
+
 
 const app  = express();
+
+
+// Routing
+app.use('/', routeHome);
 
 
 //Puerto
