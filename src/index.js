@@ -1,13 +1,16 @@
 import express from  'express'
-import {routeHome} from './routes/index.routes.js';
+import {routeHome, customerRouter} from './routes/index.routes.js';
 import './config/database.js';
 
 
 const app  = express();
 
+// Habilitar lectura de datos en formularios
+app.use(express.urlencoded({extended: true}));
 
 // Routing
 app.use('/', routeHome);
+app.use('/customers', customerRouter);
 
 
 //Puerto

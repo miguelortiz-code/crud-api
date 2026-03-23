@@ -1,39 +1,44 @@
-import mongoose from 'moongose';
+import mongoose from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
 const customerSchema = new mongoose.Schema({
     name: {
         type: String,
+        required: true,
         trim: true
     },
 
     lastname: {
         type: String,
+        required: true,
         trim: true
     },
     
-    company:{
+    company: {
         type: String,
-        trim: true
+        trim: true,
+        default: ''
     },
 
     email: {
         type: String,
+        required: true,
         unique: true,
         trim: true,
-        lowercase: true
+        lowercase: true,
+        match: [/^\S+@\S+\.\S+$/, 'Email inválido']
     },
 
     telefono: {
         type: String,
-        trim: true
-    },
+        trim: true,
+        default: ''
+    }
 }, {
-    timestamps: true,
+    timestamps: true
 });
 
+const Customers = mongoose.model('Customer', customerSchema);
 
-const Customers = mongoose.model('customers', customerSchema);
-
-export default Customers
+export default Customers;
