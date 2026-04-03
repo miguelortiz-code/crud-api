@@ -14,11 +14,23 @@ export const newCustomer = async (req, res) =>{
         });
         // Almacenar en la base de datos
         const newCustomer =  await customer.save();
-        res.status(200).json(
+        res.status(201).json(
             {
                 newCustomer,
                 message: 'Se ha creado un nuevo cliente'
             });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+// Función para obtener usuarios
+export const getAllCustomers = async (req, res) =>{
+    try {
+        const customers = await Customers.find();
+        res.status(200).json({
+            customers
+        })
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
