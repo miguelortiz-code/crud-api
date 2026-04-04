@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllCustomers, newCustomer} from '../controllers/customer.contoller.js';
+import {getAllCustomers, getCustomerById, newCustomer} from '../controllers/customer.contoller.js';
 
 
 const router = express.Router();
@@ -9,7 +9,8 @@ router.post('/new-customer', newCustomer);
 
 
 // Router GET
-router.get('/all-customers', getAllCustomers);
+router.get('/customers', getAllCustomers);
+router.get('/customer/:id', getCustomerById);
 
 
 

@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: true}));
 
 // Routing
 app.use('/', routeHome);
-app.use('/customers', customerRouter);
+app.use('/', customerRouter);
 
 
 //Puerto
