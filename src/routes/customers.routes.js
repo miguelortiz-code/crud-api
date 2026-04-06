@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllCustomers, getCustomerById, newCustomer} from '../controllers/customer.contoller.js';
+import {getAllCustomers, getCustomerById, newCustomer, updateCustomerById} from '../controllers/customer.contoller.js';
 
 
 const router = express.Router();
@@ -12,6 +12,8 @@ router.post('/new-customer', newCustomer);
 router.get('/customers', getAllCustomers);
 router.get('/customer/:id', getCustomerById);
 
+// Router PUT
+router.put('/customer/:id', updateCustomerById)
 
 
 export default router

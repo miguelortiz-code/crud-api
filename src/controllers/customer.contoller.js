@@ -70,3 +70,38 @@ export const getCustomerById = async (req, res) => {
     });
   }
 };
+
+// Función para actualizar el cliente por id
+export const updateCustomerById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedCustomer = await Customers.findByIdAndUpdate(
+      id,
+      req.body,
+      {
+        new: true,        // devuelve el actualizado
+        runValidators: true, // aplica validaciones del schema
+      }
+    );
+
+    if (!updatedCustomer) {
+      return res.status(404).json({
+        success: false,
+        message: "Cliente no existe",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: updatedCustomer,
+      message : 'Cliente actualizado correctamente'
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
