@@ -1,5 +1,5 @@
 import express from  'express'
-import {routeHome, customerRouter} from './routes/index.routes.js';
+import {routeHome, customerRouter, productsRouter} from './routes/index.routes.js';
 import './config/database.js';
 
 
@@ -11,6 +11,7 @@ app.use(express.urlencoded({extended: true}));
 // Routing
 app.use('/', routeHome);
 app.use('/', customerRouter);
+app.use('/', productsRouter);
 
 
 //Puerto
