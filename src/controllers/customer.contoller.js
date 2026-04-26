@@ -105,3 +105,32 @@ export const updateCustomerById = async (req, res) => {
     });
   }
 };
+
+export const deleteCustomerById = async(req, res) =>{
+  try {
+    const {id} = req.params
+    const deleteCustomer =  await Customers.findByIdAndDelete(id);
+    console.log(deleteCustomer.name);
+
+    if(!deleteCustomer){
+      return res.status(400).json({
+        success: false,
+        message: 'Cliente no existe'
+      });
+    }
+
+    // Si existe devolver clientes
+    return res.status(200).json({
+      success: true,
+      data: deleteCustomer,
+      message: `Cliente ${deleteCustomer.name}`,
+
+    })
+
+  } catch (error) {
+     return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}

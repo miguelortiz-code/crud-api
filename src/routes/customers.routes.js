@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllCustomers, getCustomerById, newCustomer, updateCustomerById} from '../controllers/customer.contoller.js';
+import {getAllCustomers, getCustomerById, newCustomer, updateCustomerById, deleteCustomerById} from '../controllers/customer.contoller.js';
 
 
 const router = express.Router();
@@ -15,5 +15,7 @@ router.get('/customer/:id', getCustomerById);
 // Router PUT
 router.put('/customer/:id', updateCustomerById)
 
+// Router DELETE
+router.delete('/customer/:id', deleteCustomerById)
 
 export default router
