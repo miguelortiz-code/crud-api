@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllProducts, newProducts} from '../controllers/products.controller.js';
+import {getAllProducts, getProductById, newProducts} from '../controllers/products.controller.js';
 import {multerErrorHandler, updateImage} from '../middleware/index.middleware.js';
 import {uploadTo} from '../config/multer.js';
 
@@ -10,5 +10,6 @@ router.post('/products/new-product', uploadTo('products').single('image'), multe
 
 // Router GET
 router.get ('/products', getAllProducts);
+router.get ('/product/:id', getProductById);
 
 export default router
