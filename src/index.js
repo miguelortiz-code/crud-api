@@ -6,6 +6,7 @@ import './config/database.js';
 const app  = express();
 
 // Habilitar lectura de datos en formularios
+app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Routing

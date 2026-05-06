@@ -90,3 +90,47 @@ export const  getProductById = async (req, res) =>{
     });
   }
 }
+
+// función para actualizar productos
+export const updateProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const previousProduct = await Products.findById(id);
+
+    if (!previousProduct) {
+      return res.status(404).json({
+        success: false,
+        message: 'Producto no existe',
+      });
+    }
+
+    // Construir nuevo producto
+    let newProduct = req.body;
+
+    //Primero verifica que req.file exista, luego su filename
+    if (req.file) {
+      newProduct.image = req.file.filename;
+    } else {
+      newProduct.image = previousProduct.image; // Conserva la imagen anterior
+    }
+
+    const updatedProduct = await Products.findByIdAndUpdate(
+      id,
+      { $set: newProduct },
+      { new: true, runValidators: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: updatedProduct,
+      message: 'Producto actualizado correctamente',
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
