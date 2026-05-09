@@ -1,57 +1,66 @@
+import fs from "fs";
+import path from "path";
 import {Products} from '../models/index.model.js';
 
-// Función para subir archivo
-export const saveImageGroup = async (req, res, next) => {
+// Funcion para almacenar y editar imagen de los productos
+// export const saveImageGroup = async (req, res, next) => {
+//   const { id } = req.params;
+
+//   try {
+//     const product = await Products.findById(id);
+
+//     if (!product) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Producto no existe',
+//       });
+//     }
+
+//     req.record = product;
+//     return next();
+//   } catch (error) {
+//     console.error('Error en saveImageGroup:', error);
+//     return res.status(500).json({ 
+//       success: false,
+//       message: error.message 
+//     });
+//   }
+// };
+
+// Crear producto con imagen
+export const newProducts = async (req, res) => {
   try {
-    // DEBUGGING -> Validar que exista una imagen anterior
-    // if(group.image){
-    //   console.log(group.image);
-    // }
+    const { name, price } = req.body;
 
-    // DEBUGGING -> Verificar si estan subiendo una imagen nueva
-    // if(req.file){
-    //   console.log(req.file.filename);
-    // }
+    //Validar campos requeridos antes de guardar
+    if (!name || !price) {
+      return res.status(400).json({
+        success: false,
+        message: 'Nombre y precio son requeridos',
+      });
+    }
 
-    //📌 Paso 3: Crear el req.record para que el siguiente middleware lo use
-    req.record = group;
-    //📌 Paso 4: Pasar al siguiente Middleware updateImage()
-    return next();
+    const product = new Products({
+      name,
+      price,
+      image: req.file ? req.file.filename : null,
+    });
+
+    const newProduct = await product.save();
+
+    return res.status(201).json({
+      success: true,
+      data: newProduct,
+      message: 'Producto creado correctamente',
+    });
+
   } catch (error) {
-    console.error("❌ Error en saveImageGroup:", error);
-    req.flash("error", "Hubo un error procesando la imagen");
-    return res.redirect("/dashboard");
+    return res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
-
-// Función para crear productos 
-export const newProducts = async (req, res) => {
-    // Extraer Datos
-    const {name, price} = req.body;
-    // Verifica si se subió una imagen
-      let image = null;
-      if (req.file) {
-        image = req.file.filename;
-      }
-
-    try {
-        const product =  new Products({
-            name,
-            price,
-            image,
-         });
-
-
-        // Almacenar en la base de datos
-        const newProduct = await product.save();
-        res.status(201).json({
-            newProduct,
-            message: `Producto creado correctamente`
-        })
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
 
 // Función para mostrar todos los productos
 export const getAllProducts = async (req, res) =>{
@@ -125,6 +134,52 @@ export const updateProductById = async (req, res) => {
       success: true,
       data: updatedProduct,
       message: 'Producto actualizado correctamente',
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Función para eliminar productos
+export const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedProduct = await Products.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      return res.status(404).json({
+        success: false,
+        message: 'Producto no existe',
+      });
+    }
+
+    // Si hay imagen asociada, eliminarla
+    if (deletedProduct.image) {
+      const oldImagePath = path.join(
+        import.meta.dirname,
+        '..',
+        'public',
+        'uploads',
+        'products',
+        deletedProduct.image
+      );
+
+      try {
+        await fs.promises.unlink(oldImagePath);
+      } catch (err) {
+        if (err.code !== 'ENOENT') {
+          console.error('⚠ Error eliminando imagen:', err);
+        }
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Producto ${deletedProduct.name} ha sido eliminado`,
     });
 
   } catch (error) {

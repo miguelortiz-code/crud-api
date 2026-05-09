@@ -15,6 +15,7 @@ jspm_packages/
 .yarn/install-state.gz
 .pnp.*
 .yarnrc.yml
+src/public/
 
 # pnpm
 .pnpm-store/

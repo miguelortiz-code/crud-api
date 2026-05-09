@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllProducts, getProductById, newProducts, updateProductById, saveImageGroup} from '../controllers/products.controller.js';
+import {getAllProducts, getProductById, newProducts, updateProductById, deleteProduct} from '../controllers/products.controller.js';
 import {multerErrorHandler, updateImage} from '../middleware/index.middleware.js';
 import {uploadTo} from '../config/multer.js';
 
@@ -15,4 +15,7 @@ router.get ('/product/:id', getProductById);
 // Router PUT
 router.put("/product/:id",  uploadTo('products').single('image'), multerErrorHandler(), updateProductById);
 
-export default router
+// Router DELETE
+router.delete('/product/:id', deleteProduct);
+
+export default router   
