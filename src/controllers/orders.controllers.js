@@ -35,3 +35,40 @@ export const getAllOrders = async (req, res) =>{
         });
     }
 }
+
+// Función para obtener order por id
+export const getOrderById = async (req, res, next) =>{
+    try {
+        // Obtener el id del pedido
+        const {id} = req.params;
+        // Buscar order
+        const order = await Orders.findById(id).populate('customer').populate({
+            path: 'order.product',
+            model: 'Products'
+        });
+
+        // Si no existe la orden
+        if(!order){
+            res.status(404).json({
+                success: false,
+                message: 'El pedido no existe'
+            });
+
+            return next();
+        }
+
+        // Si todo esta bien
+
+        return res.status(200).json({
+            success: true,
+            data: order
+        });
+
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}
