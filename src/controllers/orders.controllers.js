@@ -72,3 +72,41 @@ export const getOrderById = async (req, res, next) =>{
         });
     }
 }
+
+// Función para actualizar order
+export const updatedOrderById = async (req, res) =>{
+    try {
+        const {id} = req.params;
+        const updateOrder = await Orders.findByIdAndUpdate(
+            id,
+            req.body,
+            {
+                new: true,
+                runValidators: true
+            }
+        )
+        .populate('customer')
+        .populate({
+            path: 'order.product',
+            model: 'Products'
+        });
+
+        // Si no aparece la orden
+        if(!updateOrder){
+             return res.status(404).json({
+                success: false,
+                message: "La orden no existe",
+            });
+        }
+        return res.status(200).json({
+            success: false,
+            data: updateOrder,
+            message: 'Orden actualizada'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
