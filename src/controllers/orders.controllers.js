@@ -110,3 +110,31 @@ export const updatedOrderById = async (req, res) =>{
         });
     }
 };
+
+// Función para eliminar la orden
+export const deleteOrder = async (req, res ) =>{
+    try {
+        const {id} = req.params;
+        const order = await Orders.findByIdAndDelete(id);
+        
+        // Si no existe la orden
+        if(!order){
+            return res.status(400).json({
+                success: false,
+                message: 'La orden no existe',
+            });
+        }
+
+        // Si existe la orden
+        return res.status(200).json({
+            success: true,
+            message: `La orden se ha eliminado`
+        });
+        
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
