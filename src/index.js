@@ -1,4 +1,5 @@
 import express from  'express'
+import cors from 'cors'
 import {routeHome, customerRouter, productsRouter, ordersRouter} from './routes/index.routes.js';
 import './config/database.js';
 
@@ -8,6 +9,9 @@ const app  = express();
 // Habilitar lectura de datos en formularios
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+// Habilitación de CORS
+app.use(cors());
 
 // Routing
 app.use('/', routeHome);

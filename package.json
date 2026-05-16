@@ -11,6 +11,7 @@
   "author": "Miguel Ortiz",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "moongose": "^1.0.0",
     "multer": "^2.1.1",
