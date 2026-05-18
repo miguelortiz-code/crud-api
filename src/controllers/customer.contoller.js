@@ -20,7 +20,7 @@ export const newCustomer = async (req, res) =>{
                 message: 'Se ha creado un nuevo cliente'
             });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.send(error.message);
     }
 }
 
