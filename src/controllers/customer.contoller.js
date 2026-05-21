@@ -20,7 +20,12 @@ export const newCustomer = async (req, res) =>{
                 message: 'Se ha creado un nuevo cliente'
             });
     } catch (error) {
-        res.send(error.message);
+        if (error.code === 11000) {
+            return res.status(400).json({
+                message: `El correo ya se encuentra registrado`
+            });
+        }
+        res.status(500).json({ message: error.message });
     }
 }
 
