@@ -115,7 +115,6 @@ export const deleteCustomerById = async(req, res) =>{
   try {
     const {id} = req.params
     const deleteCustomer =  await Customers.findByIdAndDelete(id);
-    console.log(deleteCustomer.name);
 
     if(!deleteCustomer){
       return res.status(400).json({
@@ -128,7 +127,7 @@ export const deleteCustomerById = async(req, res) =>{
     return res.status(200).json({
       success: true,
       data: deleteCustomer,
-      message: `Cliente ${deleteCustomer.name}`,
+      message: `Cliente eliminado`,
 
     })
 
