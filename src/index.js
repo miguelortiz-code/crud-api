@@ -13,6 +13,10 @@ app.use(express.urlencoded({extended: true}));
 // Habilitación de CORS
 app.use(cors());
 
+
+// public folder
+app.use('/uploads', express.static('src/public/uploads'));
+
 // Routing
 app.use('/', routeHome);
 app.use('/', customerRouter);
