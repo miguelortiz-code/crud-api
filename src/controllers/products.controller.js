@@ -189,3 +189,15 @@ export const deleteProduct = async (req, res) => {
     });
   }
 };
+
+// Función para buscar productos
+export const searchProduct =  async (req, res, next) =>{
+  try {
+    const {query} = req.params
+    const product = await Products.find({name: new RegExp(query, 'i')});
+    res.json(product)
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+}

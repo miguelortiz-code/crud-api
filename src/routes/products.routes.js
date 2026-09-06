@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllProducts, getProductById, newProducts, updateProductById, deleteProduct} from '../controllers/products.controller.js';
+import {getAllProducts, getProductById, newProducts, updateProductById, deleteProduct, searchProduct} from '../controllers/products.controller.js';
 import {multerErrorHandler, updateImage} from '../middleware/index.middleware.js';
 import {uploadTo} from '../config/multer.js';
 
@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Router POST
 router.post('/products/new-product', uploadTo('products').single('image'), multerErrorHandler(), newProducts);
-
+router.post('/products/search/:query', searchProduct)
 // Router GET
 router.get ('/products', getAllProducts);
 router.get ('/product/:id', getProductById);
