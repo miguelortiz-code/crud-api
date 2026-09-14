@@ -12,10 +12,10 @@ const ordersSchema = new mongoose.Schema({
         product :{
             type: Schema.ObjectId,
             ref:  'Products'
-        }
+        },
+        amount: Number,
     }],
 
-    amount: Number,
     total: {
         type: Number
     }
