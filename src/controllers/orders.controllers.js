@@ -7,7 +7,8 @@ export const newOrder = async (req, res) =>{
         await order.save();
         res.json({
             success: true,
-            message: 'Se agrego un nuevo pedido'
+            message: 'Se agrego un nuevo pedido',
+            status: 200
         })
     } catch (error) {
         return res.status(500).json({
