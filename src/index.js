@@ -1,6 +1,6 @@
 import express from  'express'
 import cors from 'cors'
-import {routeHome, customerRouter, productsRouter, ordersRouter} from './routes/index.routes.js';
+import {routeHome, customerRouter, productsRouter, ordersRouter, authRouter} from './routes/index.routes.js';
 import './config/database.js';
 
 
@@ -22,6 +22,7 @@ app.use('/', routeHome);
 app.use('/', customerRouter);
 app.use('/', productsRouter);
 app.use('/', ordersRouter);
+app.use('/', authRouter);
 
 
 //Puerto

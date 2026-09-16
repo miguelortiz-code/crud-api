@@ -1,8 +1,8 @@
-import moongose, {Schema} from 'moongose';
+import mongoose from 'mongoose';
 
-moongose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 
-const usersSchema = new moongose.Schema({
+const usersSchema = new mongoose.Schema({
     email:{
         type: String,
         unique: true,
@@ -21,5 +21,5 @@ const usersSchema = new moongose.Schema({
     }
 });
 
-const Users = moongose.model('Users', usersSchema);
+const Users = mongoose.model('Users', usersSchema);
 export default Users;
