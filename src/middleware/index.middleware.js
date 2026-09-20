@@ -1,7 +1,7 @@
 import multer from "multer";
 import fs from "fs";
 import path from "path";
-
+import jwt from 'jsonwebtoken';
 
 // Manejo de errores de Multer que guarda los datos del formulario para no perderlos si ocurre un error.
 export const multerErrorHandler = (fallbackPath = "/") => {
@@ -75,3 +75,32 @@ export const updateImage = (folder) => {
     }
   };
 };
+
+export const jwtVerification = (req, res, next) => {
+  // Autorización por el Header
+  const authHeader = req.get('Authorization');
+  if (!authHeader) {
+    const error = new Error('No autenticado, no hay token');
+    error.statusCode = 401;
+    throw error;
+  }
+
+  // Obtener token y verificarlo
+  const token = authHeader.split(' ')[1];
+  let checkToken;
+  try {
+    checkToken = jwt.verify(token, 'LLAVESECRETA');
+  } catch (error) {
+    error.statusCode = 401;
+    throw error;
+  }
+
+  if (!checkToken) {
+    const error = new Error('No autenticado');
+    error.statusCode = 401;
+    throw error;
+  }
+
+  req.user = checkToken;
+  next();
+}
